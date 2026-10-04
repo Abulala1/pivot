@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ArrowUpRight, Menu, X } from 'lucide-react'
-export function Logo() { return <span className="logo"><span className="logo-mark" aria-hidden="true">›</span>pivot<span className="logo-dot">.</span></span> }
+export function Logo() { return <span className="logo"><img src={`${import.meta.env.BASE_URL}images/pivot-logo.png`} alt="Pivot" width="2172" height="724" /></span> }
 export default function Navbar() {
  const [open, setOpen] = useState(false)
  const [scrolled, setScrolled] = useState(false)

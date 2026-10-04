@@ -66,6 +66,8 @@ Confirm current DNS requirements against [GitHub's custom domain documentation](
 
 ## Images and content
 
+The supplied Pivot wordmark is used in the navigation and footer (`public/images/pivot-logo.png`). CSS frames out the original image's black margins without altering the supplied artwork; screen blending fits its black background to the dark page. The orange folded-chevron symbol is represented as a crisp SVG favicon in `public/favicon.svg`.
+
 The supplied product visuals are optimized as WebP files in `public/images/`. Replace `rider.webp` and `product.webp` there, or change `src/lib/config.ts`. Keep the declared image dimensions/aspect ratios aligned with replacements and update descriptive alt text in `src/App.tsx`. `social.jpg` is the social sharing asset. These visuals are explicitly labeled as illustrative concepts.
 
 - `src/components/`: shared navigation and reduced-motion-aware reveal animation.
