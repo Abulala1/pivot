@@ -18,6 +18,12 @@ On PowerShell, use `Copy-Item .env.example .env.local`. The build outputs `dist/
 
 ## Enable beta signups
 
+Pivot uses the official `@formspree/react` integration (`useForm` and `ValidationError`), keeping the custom five-field signup design. The configured form ID is `xnpjarnz`.
+
+**Local development:** `.env.example` is a template and Vite does not load it automatically. Copy it to `.env.local` and restart `npm run dev`. `.env.local` is ignored by Git.
+
+**Live GitHub Pages:** use a repository **Actions variable** named `VITE_FORMSPREE_ENDPOINT` with the value `https://formspree.io/f/xnpjarnz`. Enter only the URL as the value, without quotes or `VITE_FORMSPREE_ENDPOINT=`. The workflow already passes `${{ vars.VITE_FORMSPREE_ENDPOINT }}` to Vite. Changing a GitHub variable does not rebuild a deployed website; rerun the deployment workflow or push a commit to `main` afterward.
+
 1. Create a form in Formspree and set `VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/yourActualId` in `.env.local`.
 2. For GitHub deployment, add the same value under **Settings → Secrets and variables → Actions → Variables**, as `VITE_FORMSPREE_ENDPOINT`.
 3. Rebuild after changing the variable. Vite embeds public configuration at build time; do not put API secrets in `VITE_` variables.
@@ -25,6 +31,8 @@ On PowerShell, use `Copy-Item .env.example .env.local`. The build outputs `dist/
 5. Test a real submission, delivery, and unsubscribe/deletion process before launch.
 
 The form uses native required/email validation, rejects blank names/cities, includes a honeypot, prevents duplicate submissions, and presents sending, success, and error states. Missing/placeholder configuration never sends data or pretends to save a signup. Failed requests preserve entered values. This list registers interest; it does not promise a beta place or accept payment.
+
+Server validation errors appear beside the relevant fields; general Formspree errors appear below the submit button. If you restrict the form to a domain in Formspree, allow `abulala1.github.io` while using GitHub Pages. Confirm your recipient email is verified. After deployment, submit your own signup through the live page and check both the Formspree submissions dashboard and your inbox. Client configuration alone cannot confirm email delivery.
 
 ## GitHub Pages
 
