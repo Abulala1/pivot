@@ -88,6 +88,7 @@ Geist and Inter Latin variable fonts are self-hosted in `src/assets/fonts/`, wit
 - `.env.example` deliberately contains a placeholder and is safe to commit. The live endpoint is necessarily visible in the browser bundle: moving it to a GitHub secret would not hide a `VITE_` value after building. Protect submissions with Formspree's server-side spam controls, not by trying to conceal the URL. If a real private key is exposed, revoke/rotate it at its provider; deleting a file alone does not remove Git history or revoke a key.
 - Deployment actions are pinned to full commit hashes. Checkout does not persist credentials, the build receives read permissions, and only the deployment job gets Pages write and OIDC permissions. CI runs validation tests and a high/critical production dependency audit before publishing.
 - Dependabot checks npm and GitHub Actions weekly. Review its PRs and deploy security updates after validation; no updates are auto-merged.
+- GitHub secret scanning and push protection are enabled for this repository, alongside dependency vulnerability alerts and security-update PRs. Review the repository Security tab for findings. These checks detect supported credential patterns and are not a guarantee that every possible secret will be detected.
 
 ### Formspree account settings (manual)
 
