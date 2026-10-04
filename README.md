@@ -10,7 +10,9 @@ Use Node.js 22 or newer.
 npm install
 cp .env.example .env.local
 npm run dev
+npm test
 npm run build
+npm run verify-build
 npm run preview
 ```
 
@@ -72,4 +74,26 @@ The supplied product visuals are optimized as WebP files in `public/images/`. Re
 - `src/styles.css`: Tailwind import, design tokens, responsive layout, focus states.
 - `public/`: favicon, images, robots.txt, sitemap.xml.
 
-Fonts use Google Fonts with local sans-serif fallbacks. Self-host licensed Geist/Inter font files if you need to avoid third-party font requests. Animations use opacity/transform, run once, and respect reduced-motion preferences. Product images have reserved dimensions; the hero loads eagerly and the studio image lazily.
+Geist and Inter Latin variable fonts are self-hosted in `src/assets/fonts/`, with their OFL licenses and system fallbacks. There are no external font requests. Animations use opacity/transform, run once, and respect reduced-motion preferences. Product images have reserved dimensions; the hero loads eagerly and the studio image lazily.
+
+## Security and maintenance
+
+- The production HTML includes a Content Security Policy: scripts, stylesheets, fonts, and images come from this site; network submissions are allowed only to `https://formspree.io`. Inline style attributes are allowed for Motion animations; inline scripts and JavaScript evaluation are blocked. The policy is applied only to builds so Vite development refresh continues working.
+- A strict-origin-when-cross-origin referrer policy limits information sent to other sites while preserving the origin needed for Formspree domain checks.
+- The development and preview servers bind to loopback by default. Use `npm run dev -- --host 0.0.0.0` only when you intentionally need LAN access.
+- The form validates bounded text, email, and allowed rider/testing choices, strips extra fields, trims text, blocks filled honeypots, and locks concurrent submissions. These browser checks can be bypassed; Formspree must enforce server-side abuse protection. No signup data is stored in browser storage or logged by the application.
+- The public Formspree endpoint is not a secret. Do not add private credentials to any `VITE_` variable. `.env*` files are ignored except `.env.example`.
+- Deployment actions are pinned to full commit hashes. Checkout does not persist credentials, the build receives read permissions, and only the deployment job gets Pages write and OIDC permissions. CI runs validation tests and a high/critical production dependency audit before publishing.
+- Dependabot checks npm and GitHub Actions weekly. Review its PRs and deploy security updates after validation; no updates are auto-merged.
+
+### Formspree account settings (manual)
+
+In your Formspree form settings, confirm the recipient email is verified, keep spam protection enabled, and set **Restrict to Domain** to `abulala1.github.io` if that feature is available on your plan. Check the spam/submissions dashboard regularly. If you enable a challenge such as reCAPTCHA, test it on the live website first: the strict content policy currently does not allow third-party challenge scripts and will need the provider's documented hosts added deliberately. When you switch domains, update the restriction. Domain checks and honeypots reduce abuse but do not replace server-side filtering or rate limits.
+
+### GitHub account and repository settings (manual)
+
+Enable two-factor authentication/passkeys for your GitHub and Formspree accounts. Review repository collaborators and Actions permissions. GitHub Pages manages HTTPS and response headers; this project cannot set custom HTTP security headers on Pages. In particular, framing protection (`frame-ancestors`/`X-Frame-Options`) requires a host or proxy with configurable response headers and cannot be enforced by a meta CSP. If you later need those controls, configure them at that host.
+
+### Commit attribution
+
+The original commits used this computer's global Git identity (`Abulala123`), while pushing authenticated as `Abulala1`. GitHub associates authors with the commit email, independently of the account that pushes. This repository now overrides the author name/email locally with `Abulala1` and its GitHub noreply address. Global settings and existing commits remain intact. On another computer, configure `git config user.name Abulala1` and set `git config user.email` to the `Abulala1` noreply address shown under GitHub Settings → Emails.

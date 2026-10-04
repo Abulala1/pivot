@@ -1,19 +1,23 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { useForm, ValidationError } from '@formspree/react'
 import { ArrowUpRight, Check, LoaderCircle } from 'lucide-react'
 import { formEndpoint } from '../lib/config'
+import { prepareSignup } from '../lib/signup'
 import { Reveal } from '../components/Reveal'
 export default function Beta() {
  const configured = /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(formEndpoint) && !formEndpoint.includes('YOUR_FORM_ID')
  const [state, handleSubmit, reset] = useForm(configured ? formEndpoint.split('/').pop()! : 'UNCONFIGURED')
  const [message, setMessage] = useState('')
+ const inFlight = useRef(false)
  async function submit(e: FormEvent<HTMLFormElement>) {
-  e.preventDefault(); if (state.submitting) return
-  const form = e.currentTarget; const data = new FormData(form)
-  if (!String(data.get('name')).trim() || !String(data.get('city')).trim()) { setMessage('Please enter your name and city.'); return }
+  e.preventDefault(); if (inFlight.current || state.submitting) return
+  const prepared = prepareSignup(new FormData(e.currentTarget))
+  if (!prepared.ok) { setMessage(prepared.message); return }
   if (!configured) { setMessage('Beta registration is being set up. Please check back soon. Your details have not been submitted.'); return }
   setMessage('')
-  try { await handleSubmit(data) } catch { setMessage('We couldn’t submit your signup. Please try again in a moment.') }
+  inFlight.current = true
+  try { await handleSubmit(prepared.data) } catch { setMessage('We couldn’t submit your signup. Please try again in a moment.') }
+  finally { inFlight.current = false }
  }
  return <section id="beta" className="beta-section section"><div className="container beta-grid"><Reveal><p className="eyebrow"><span className="status-dot"/> EARLY INTEREST · OPEN</p><h2>Ride<br/>with us<span className="orange">.</span></h2><p className="section-copy">Help shape the future of wearable navigation for riders.</p><p className="beta-note">Join the list for development updates and opportunities to test a future prototype. No purchase. Just a shared direction.</p><div className="beta-signoff"><span className="small-arrow">↗</span><span>Better rides start<br/>with a new perspective.</span></div></Reveal><Reveal className="form-wrap">{state.succeeded ? <div className="success-panel" role="status"><Check size={36}/><h3>You’re on the list.</h3><p>Thanks for being part of Pivot’s next chapter. We’ll be in touch with development updates.</p><button className="text-link" onClick={() => { reset(); setMessage('') }}>Submit another signup <ArrowUpRight size={16}/></button></div> : <form onSubmit={submit}><div className="form-heading"><h3>Your next ride starts here.</h3><span>01 / EARLY ACCESS</span></div><div className="form-fields"><label>Name<input name="name" aria-invalid={state.errors?.getFieldErrors('name').length ? true : undefined} aria-describedby="name-error" autoComplete="name" required maxLength={100} placeholder="Your name"/><ValidationError id="name-error" field="name" prefix="Name" errors={state.errors} className="form-error"/></label><label>Email<input name="email" aria-invalid={state.errors?.getFieldErrors('email').length ? true : undefined} aria-describedby="email-error" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com"/><ValidationError id="email-error" field="email" prefix="Email" errors={state.errors} className="form-error"/></label><label>Rider type<select name="riderType" aria-invalid={state.errors?.getFieldErrors('riderType').length ? true : undefined} aria-describedby="riderType-error" required defaultValue=""><option value="" disabled>Select your ride</option><option>Cyclist</option><option>E-scooter rider</option></select><ValidationError id="riderType-error" field="riderType" prefix="Rider type" errors={state.errors} className="form-error"/></label><label>City<input name="city" aria-invalid={state.errors?.getFieldErrors('city').length ? true : undefined} aria-describedby="city-error" autoComplete="address-level2" required maxLength={100} placeholder="Where you ride"/><ValidationError id="city-error" field="city" prefix="City" errors={state.errors} className="form-error"/></label></div><fieldset><legend>Would you test a future prototype?</legend><label className="radio-label"><input type="radio" name="prototypeTesting" value="Yes" required/> Yes, count me in</label><label className="radio-label"><input type="radio" name="prototypeTesting" value="No"/> Just here for updates</label></fieldset><input name="_gotcha" tabIndex={-1} autoComplete="off" className="honeypot" aria-hidden="true"/><button className="button button-primary form-submit" type="submit" disabled={state.submitting}>{state.submitting ? 'Submitting…' : 'Join the Beta'}{state.submitting ? <LoaderCircle size={18} className="spin"/> : <ArrowUpRight size={18}/>}</button><div role="status" aria-live="polite"><ValidationError errors={state.errors} className="form-error"/><ValidationError field="prototypeTesting" prefix="Testing preference" errors={state.errors} className="form-error"/>{message && <p className="form-error">{message}</p>}</div><p className="form-privacy">By signing up, you agree to receive Pivot development and beta updates. Unsubscribe anytime. Signups are processed by Formspree. <a href="#privacy">Privacy details</a></p></form>}</Reveal></div></section>
 }
