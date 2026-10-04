@@ -20,11 +20,11 @@ On PowerShell, use `Copy-Item .env.example .env.local`. The build outputs `dist/
 
 ## Enable beta signups
 
-Pivot uses the official `@formspree/react` integration (`useForm` and `ValidationError`), keeping the custom five-field signup design. The configured form ID is `xnpjarnz`.
+Pivot uses the official `@formspree/react` integration (`useForm` and `ValidationError`), keeping the custom five-field signup design.
 
 **Local development:** `.env.example` is a template and Vite does not load it automatically. Copy it to `.env.local` and restart `npm run dev`. `.env.local` is ignored by Git.
 
-**Live GitHub Pages:** use a repository **Actions variable** named `VITE_FORMSPREE_ENDPOINT` with the value `https://formspree.io/f/xnpjarnz`. Enter only the URL as the value, without quotes or `VITE_FORMSPREE_ENDPOINT=`. The workflow already passes `${{ vars.VITE_FORMSPREE_ENDPOINT }}` to Vite. Changing a GitHub variable does not rebuild a deployed website; rerun the deployment workflow or push a commit to `main` afterward.
+**Live GitHub Pages:** use a repository **Actions variable** named `VITE_FORMSPREE_ENDPOINT` with the public submission URL copied from your Formspree dashboard (`https://formspree.io/f/YOUR_FORM_ID`). Enter only the URL as the value, without quotes or `VITE_FORMSPREE_ENDPOINT=`. The workflow already passes `${{ vars.VITE_FORMSPREE_ENDPOINT }}` to Vite. Changing a GitHub variable does not rebuild a deployed website; rerun the deployment workflow or push a commit to `main` afterward. The existing live endpoint remains configured in GitHub; replacing the example does not change it.
 
 1. Create a form in Formspree and set `VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/yourActualId` in `.env.local`.
 2. For GitHub deployment, add the same value under **Settings → Secrets and variables → Actions → Variables**, as `VITE_FORMSPREE_ENDPOINT`.
@@ -85,6 +85,7 @@ Geist and Inter Latin variable fonts are self-hosted in `src/assets/fonts/`, wit
 - The development and preview servers bind to loopback by default. Use `npm run dev -- --host 0.0.0.0` only when you intentionally need LAN access.
 - The form validates bounded text, email, and allowed rider/testing choices, strips extra fields, trims text, blocks filled honeypots, and locks concurrent submissions. These browser checks can be bypassed; Formspree must enforce server-side abuse protection. No signup data is stored in browser storage or logged by the application.
 - The public Formspree endpoint is not a secret. Do not add private credentials to any `VITE_` variable. `.env*` files are ignored except `.env.example`.
+- `.env.example` deliberately contains a placeholder and is safe to commit. The live endpoint is necessarily visible in the browser bundle: moving it to a GitHub secret would not hide a `VITE_` value after building. Protect submissions with Formspree's server-side spam controls, not by trying to conceal the URL. If a real private key is exposed, revoke/rotate it at its provider; deleting a file alone does not remove Git history or revoke a key.
 - Deployment actions are pinned to full commit hashes. Checkout does not persist credentials, the build receives read permissions, and only the deployment job gets Pages write and OIDC permissions. CI runs validation tests and a high/critical production dependency audit before publishing.
 - Dependabot checks npm and GitHub Actions weekly. Review its PRs and deploy security updates after validation; no updates are auto-merged.
 
