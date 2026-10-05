@@ -4,7 +4,7 @@
 
 A concept-stage wearable for urban cyclists and e-scooter riders. This landing page introduces the product and collects early interest through Formspree.
 
-**Website:** [abulala1.github.io/pivot](https://abulala1.github.io/pivot/)
+**Website:** [pivotride.work](https://pivotride.work/)
 
 Built with React, TypeScript, Vite, Tailwind CSS, Framer Motion, and Lucide. Hosted on GitHub Pages.
 
@@ -54,17 +54,27 @@ The live Formspree endpoint is already configured as a repository Actions variab
 
 After changing the variable, rerun deployment. Confirm delivery by submitting your own signup and checking Formspree and your inbox.
 
-In Formspree, verify your recipient email and keep spam filtering enabled. If your plan supports domain restrictions, allow `abulala1.github.io`. Review the privacy disclosure and configure a monitored reply address for update emails. Enabling CAPTCHA requires updating the site's content policy for the provider and testing the integration.
+In Formspree, verify your recipient email and keep spam filtering enabled. If your plan supports domain restrictions, allow `pivotride.work`. Review the privacy disclosure and configure a monitored reply address for update emails. Enabling CAPTCHA requires updating the site's content policy for the provider and testing the integration.
 
-## Custom domain later
+## Connect pivotride.work
 
-After purchasing `pivotride.us`:
+The website metadata and footer use `https://pivotride.work/`. GitHub Pages manages the custom domain through repository **Settings > Pages**.
 
-1. Enter it in repository **Settings > Pages > Custom domain**.
-2. Configure apex DNS using GitHub's [custom domain guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site). Set an optional `www` CNAME to `abulala1.github.io`.
-3. Complete domain verification and enable **Enforce HTTPS** once the certificate is ready.
-4. Replace the GitHub Pages URL in `index.html`, `public/robots.txt`, and `public/sitemap.xml`. Update the footer in `src/App.tsx` and the Formspree domain restriction.
-5. Push to `main` and verify the site and signup form.
+At your domain provider, remove the existing parking A records for `@` and add:
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | abulala1.github.io |
+
+The `www` record is optional. Remove conflicting records only for the website hosts; keep email MX/TXT records. Turn off registrar URL forwarding for these hosts. Use the provider's default TTL.
+
+After DNS propagates, check repository **Settings > Pages**, wait for certificate provisioning, and enable **Enforce HTTPS**. Update any Formspree domain restriction to `pivotride.work` and test a signup. Verify domain ownership under your GitHub account **Settings > Pages** using GitHub's supplied TXT record.
+
+See GitHub's [custom domain guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site). This Actions deployment uses the Pages setting; a committed CNAME file is not required.
 
 ## Editing the site
 
