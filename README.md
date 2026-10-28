@@ -1,104 +1,87 @@
-# Pivot
+# PIVOT
 
-**Navigate without looking down.**
+### Navigate Without Looking Down.
 
-A concept-stage wearable for urban cyclists and e-scooter riders. This landing page introduces the product and collects early interest through Formspree.
+**A smarter way to ride. A safer way to signal.**
 
-**Website:** [pivotride.work](https://pivotride.work/)
+[**Visit Our Website — pivotride.work**](https://pivotride.work/)
 
-Built with React, TypeScript, Vite, Tailwind CSS, Framer Motion, and Lucide. Hosted on GitHub Pages.
+---
 
-## Local development
+## Introducing PIVOT
 
-Use Node.js 22 or newer.
+PIVOT is a concept-stage wearable mobility solution designed for urban cyclists and electric scooter riders.
 
-```sh
-npm install
-npm run dev
-```
+Navigating busy streets requires constant awareness. Traditional navigation often means looking down at a phone, while communicating turns to surrounding traffic can be inconvenient.
 
-To enable local signups, create `.env.local` with your public Formspree submission URL:
+PIVOT aims to change that.
 
-```dotenv
-VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/YOUR_FORM_ID
-```
+By combining intuitive visual signaling, wearable haptic feedback, and a rider-focused design, PIVOT explores a more seamless way to navigate and communicate while riding.
 
-Restart the development server after changing this file. `.env.local` is ignored by Git.
+Our goal is simple: **help riders stay focused on the road ahead.**
 
-## Build and check
+## Designed for the Way You Move
 
-```sh
-npm test
-npm run build
-npm run verify-build
-npm run preview
-```
+### Intuitive Turn Signaling
+Wearable LED indicators are designed to make a rider's intended direction more visible to surrounding road users.
 
-The production output is `dist/`. Tests check signup validation; production checks verify the content policy, assets, fonts, and deployment action pins.
+### Haptic Navigation
+Subtle vibration cues on the forearm are intended to communicate navigation directions without requiring riders to repeatedly check their phones.
 
-## Deployment
+### Rider-Centered Design
+Designed around everyday urban mobility, PIVOT explores a lightweight, comfortable wearable form factor that integrates naturally into a rider's journey.
 
-Push changes to `main` to deploy automatically. Track progress in [GitHub Actions](https://github.com/Abulala1/pivot/actions).
+### Connected Riding Experience
+Our vision includes a connected mobile experience that brings navigation and wearable signaling together in one intuitive system.
 
-For a new repository, select **GitHub Actions** under **Settings > Pages > Build and deployment**. To redeploy manually, open the **Deploy Pivot to GitHub Pages** workflow and select **Run workflow**.
+---
 
-Relative asset paths and section anchors work at the repository URL without a routing fallback. No purchased domain is required.
+## Our Vision
 
-## Beta signup configuration
+We believe urban mobility should be more intuitive, accessible, and connected.
 
-The live Formspree endpoint is already configured as a repository Actions variable:
+As cities evolve and micromobility becomes an increasingly important part of everyday transportation, riders need solutions designed specifically for their experiences.
 
-- **Name:** `VITE_FORMSPREE_ENDPOINT`
-- **Value:** the public submission URL from your Formspree dashboard
-- **Location:** **Settings > Secrets and variables > Actions > Variables**
+PIVOT envisions a future where technology supports awareness rather than competing for attention.
 
-After changing the variable, rerun deployment. Confirm delivery by submitting your own signup and checking Formspree and your inbox.
+**Less distraction. More confidence. Better rides.**
 
-In Formspree, verify your recipient email and keep spam filtering enabled. If your plan supports domain restrictions, allow `pivotride.work`. Review the privacy disclosure and configure a monitored reply address for update emails. Enabling CAPTCHA requires updating the site's content policy for the provider and testing the integration.
+---
 
-## Connect pivotride.work
+## Who We're Building For
 
-The website metadata and footer use `https://pivotride.work/`. GitHub Pages manages the custom domain through repository **Settings > Pages**.
+PIVOT is being developed with the needs of modern urban riders in mind, including:
 
-At your domain provider, remove the existing parking A records for `@` and add:
+- **Urban Cyclists** — Commuters navigating city streets and intersections.
+- **E-Scooter Riders** — Riders seeking intuitive navigation and communication.
+- **Everyday Explorers** — People who want a more seamless riding experience.
 
-| Type | Host | Value |
-| --- | --- | --- |
-| A | @ | 185.199.108.153 |
-| A | @ | 185.199.109.153 |
-| A | @ | 185.199.110.153 |
-| A | @ | 185.199.111.153 |
-| CNAME | www | abulala1.github.io |
+---
 
-The `www` record is optional. Remove conflicting records only for the website hosts; keep email MX/TXT records. Turn off registrar URL forwarding for these hosts. Use the provider's default TTL.
+## Join the PIVOT Journey
 
-After DNS propagates, check repository **Settings > Pages**, wait for certificate provisioning, and enable **Enforce HTTPS**. Update any Formspree domain restriction to `pivotride.work` and test a signup. Verify domain ownership under your GitHub account **Settings > Pages** using GitHub's supplied TXT record.
+PIVOT is currently in the concept and early development stage.
 
-See GitHub's [custom domain guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site). This Actions deployment uses the Pages setting; a committed CNAME file is not required.
+We're exploring product design, wearable technology, and rider experiences as we work toward bringing our vision to life.
 
-## Editing the site
+Interested in the future of urban riding?
 
-| Content | File or directory |
-| --- | --- |
-| Sections, FAQ, privacy, footer | `src/App.tsx` |
-| Navbar and logo | `src/components/Navbar.tsx` |
-| Signup form | `src/sections/Beta.tsx` |
-| Signup validation | `src/lib/signup.ts` |
-| Styling | `src/styles.css` |
-| Product images and logo | `public/images/` |
-| Favicon | `public/favicon.svg` |
-| Local fonts and licenses | `src/assets/fonts/` |
+**Join our early-interest list** to receive product updates, follow our development, and hear about future opportunities to get involved.
 
-When replacing images, update their alt text and dimensions. Product visuals represent the concept; avoid claims of availability or validated protective performance.
+[**Explore PIVOT & Join the Waitlist**](https://pivotride.work/)
 
-## Security
+---
 
-- The Formspree submission URL is public, not a private API key. Never put passwords or private keys in `VITE_` variables: those values are bundled into the website.
-- Private environment files are ignored by Git.
-- Production uses a restrictive content policy, local fonts, and HTTPS. Inline style attributes remain allowed for animation; inline scripts are blocked.
-- Form checks and honeypots help reduce unwanted submissions; Formspree provides server-side filtering.
-- Deployment actions are pinned, permissions are limited, and CI checks dependencies before publishing.
-- GitHub secret scanning, push protection, dependency alerts, and security-update PRs are enabled. Review alerts and Dependabot PRs regularly.
-- Enable two-factor authentication for GitHub and Formspree. If a real secret leaks, revoke or rotate it; deleting a file does not revoke it or remove Git history.
+## Connect With Us
 
-GitHub Pages does not support custom response headers. Controls such as `frame-ancestors` require a host or proxy that supports them.
+**Website:** https://pivotride.work/
+
+**GitHub:** https://github.com/Abulala1/pivot
+
+We welcome interest, feedback, and potential collaboration from riders, designers, engineers, and others passionate about the future of urban mobility.
+
+---
+
+*PIVOT is an early-stage product concept. Product features, specifications, and availability are subject to development and change. No claims of proven safety performance are made.*
+
+**© 2026 PIVOT. All rights reserved.**
